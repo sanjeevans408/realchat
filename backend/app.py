@@ -253,4 +253,7 @@ def _now_iso():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host="0.0.0.0", port=port)
+    # Render runs this in a production environment; Werkzeug raises an error
+    # unless explicitly allowed. Pass `allow_unsafe_werkzeug=True` to bypass
+    # the runtime check when using the built-in server in this environment.
+    socketio.run(app, host="0.0.0.0", port=port, allow_unsafe_werkzeug=True)
