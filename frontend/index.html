@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0d1117" />
+<title>Friends — Chat</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ===================== AUTH VIEW ===================== -->
+  <section class="view auth-view" id="authView">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand__mark">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none">
+            <path d="M4 5h16v10H8l-4 4V5Z" fill="currentColor" opacity="0.95"/>
+          </svg>
+        </div>
+        <h1>friends chat room</h1>
+        <p>One room. Everyone's here.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab is-active" data-mode="login">Log in</button>
+        <button class="auth-tab" data-mode="register">Sign up</button>
+      </div>
+
+      <form id="authForm" class="auth-form" autocomplete="off">
+        <label class="field">
+          <span>Username</span>
+          <input type="text" id="usernameInput" name="username" placeholder="e.g. sanjeev_123" maxlength="20" required />
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" id="passwordInput" name="password" placeholder="At least 6 characters" minlength="6" required />
+        </label>
+        <p class="auth-error" id="authError"></p>
+        <button type="submit" class="btn-primary" id="authSubmit">Log in</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== CHAT VIEW ===================== -->
+  <section class="view chat-view hidden" id="chatView">
+
+    <header class="topbar">
+      <div class="topbar__id">
+        <span class="topbar__title">Pingback</span>
+        <span class="topbar__presence" id="presenceLabel">
+          <i class="dot"></i> connecting…
+        </span>
+      </div>
+      <div class="topbar__actions">
+        <button class="icon-btn" id="peopleBtn" aria-label="Online people">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/>
+            <circle cx="10" cy="7" r="3.2"/>
+            <path d="M22 20v-1a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.4a4 4 0 0 1 0 7.4"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="logoutBtn" aria-label="Log out">
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <path d="M16 17l5-5-5-5"/>
+            <path d="M21 12H9"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="thread" id="thread"></main>
+
+    <div class="typing-strip hidden" id="typingStrip"></div>
+
+    <footer class="composer">
+      <div class="composer__bar">
+        <textarea id="input" class="composer__input" placeholder="Message #general" rows="1" maxlength="2000"></textarea>
+        <button class="composer__send" id="sendBtn" aria-label="Send message" disabled>
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===================== ONLINE PEOPLE SHEET ===================== -->
+  <div class="sheet-backdrop hidden" id="sheetBackdrop"></div>
+  <div class="sheet hidden" id="peopleSheet">
+    <div class="sheet__handle"></div>
+    <h2>Online now <span id="onlineCount">0</span></h2>
+    <ul class="people-list" id="peopleList"></ul>
+  </div>
+
+</div>
+
+<template id="msgTemplate">
+  <div class="msg">
+    <div class="msg__avatar"></div>
+    <div class="msg__col">
+      <span class="msg__name"></span>
+      <div class="msg__bubble"></div>
+      <span class="msg__time"></span>
+    </div>
+  </div>
+</template>
+
+<template id="systemMsgTemplate">
+  <div class="system-msg"><span></span></div>
+</template>
+
+<template id="personTemplate">
+  <li class="person">
+    <span class="person__avatar"></span>
+    <span class="person__name"></span>
+    <span class="person__dot"></span>
+  </li>
+</template>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
